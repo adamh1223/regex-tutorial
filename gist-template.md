@@ -1,6 +1,4 @@
-# Title (replace with your title)
-
-Introductory paragraph (replace this with your text)
+# Regex Tutorial
 
 A regular expressions (regex) is a way to search through a string of text, and group searches together. Regex allows get pieces of text and perform a number of actions with the text, such as validation or find and replace. There are many actions you can do with the text you are targeting.
 
@@ -161,4 +159,4 @@ Negative Look-ahead: (?!)
 
 ## Author
 
-A short section about the author with a link to the author's GitHub profile (replace with your information and a link to your profile)
+Written by Adam Hussain, a future web developer bootcamp grad from the EdX UC Berkeley bootcamp. Adam is a talented developer who creates intuitive user interfaces, and is passionate about simplifying the user experience on webpages. Adam's github can be found at: https://github.com/adamh1223
