@@ -2,11 +2,18 @@
 
 A regular expressions (regex) is a way to search through a string of text, and group searches together. Regex allows get pieces of text and perform a number of actions with the text, such as validation or find and replace. There are many actions you can do with the text you are targeting.
 
+2 commmon use cases of regex are:
+ 1. Validating user generated input
+ 2. Search through a large body of text
+ 3. Find and replace
+
 ## Summary
 
 Briefly summarize the regex you will be describing and what you will explain. Include a code snippet of the regex. Replace this text with your summary.
 
-To use regex, you have a body of text you're searching through, and you write your regular expression at the top. This is what you are searching for. The regular expression almost always starts and ends with a /. After the closing /, you have flags. Flags are the different search filters that target text using different parameters. 
+To use regex, you have a body of text you're searching through, and you write your regular expression at the top. This is what you are searching for. The regular expression almost always starts and ends with a /. Between the slashes, you have your search pattern. After the closing /, you have flags. Flags are the different search filters that target text using different parameters. 
+
+The default settings are to find the first exact match of whatever is between the slashes. To change this behavior, flags are necessary.
 
 ## Table of Contents
 
@@ -27,6 +34,8 @@ To use regex, you have a body of text you're searching through, and you write yo
 
 
 ### Anchors
+
+Anchors don't match any characters. They tell the regex engine where matches can begin and end, to ensure that a regex matches a string at a specific place. Some places that can be specified are the beginning or end of a string or line, a word, or non-word boundary. The ^ and $ symbols are anchors. They match the beginning or end of a string.
 
 ### Quantifiers
 
@@ -103,7 +112,16 @@ case insensitive: '/i'
 
 
 multiline: '/m'
-    The multiline flag searches any line in a body of text. This is especially relevant when using the ^ character class, because you can search all lines, instead of just the first line.
+    The multiline flag searches any line in a body of text. This is especially relevant when using the ^ and $ characters, because you can search all lines, instead of just the first line. This makes the ^ and $ boundary tokens match the beginning and end of each line.
+
+unicode: '/u'
+    Enables unicode support. This makes the regex expression treat characters as code points, rather than code units. This is only necessary when using characters not found in the UTF-16 character set. 
+
+dot all (AKA single-line mode): '/s'
+    Makes the wild character . match everything on any line, not just the first line in which the regex expression is found.
+
+sticky: '/y'
+    Makes the regex expression start the search from the index in its lastIndex property. Without changing the lastIndex property on an expression that uses the y flag, nothing changes. It is also necessary to change the lastIndex, so that your search can match the string from the custom index. 
 
 
 ### Grouping and Capturing
