@@ -1,19 +1,83 @@
 # Regex Tutorial
 
-A regular expressions (regex) is a way to search through a string of text, and group searches together. Regex allows get pieces of text and perform a number of actions with the text, such as validation or find and replace. There are many actions you can do with the text you are targeting.
+A regular expression (regex) is a way to search through a string of text, and group searches together. Regex allows get pieces of text and perform a number of actions with the text, such as validation or find and replace. There are many actions you can do with the text you are targeting.
 
-2 commmon use cases of regex are:
+Regex is used differently for different languages, such as JavaScript, Ruby, Python, and more. Today we will be taking a look at how regex works within JavaScript.
+
+2 commmon use cases of regex in JavaScript are:
  1. Validating user generated input
  2. Search through a large body of text
  3. Find and replace
 
 ## Summary
 
-Briefly summarize the regex you will be describing and what you will explain. Include a code snippet of the regex. Replace this text with your summary.
-
 To use regex, you have a body of text you're searching through, and you write your regular expression at the top. This is what you are searching for. The regular expression almost always starts and ends with a /. Between the slashes, you have your search pattern. After the closing /, you have flags. Flags are the different search filters that target text using different parameters. 
 
 The default settings are to find the first exact match of whatever is between the slashes. To change this behavior, flags are necessary.
+In the following example of the flags syntax, the global flag is used on a search of the word 'cat.' /cat/g 
+We will get to flags later in this lesson.
+
+There are two methods of using regex in JavaScript:
+1. Use a string as a regex expression
+2. Use a regex object
+
+Let's take a closer look at each of these methods.
+1. Using a string as a regex expression:
+
+    •Let's say you want to search through a website's url parameters to grab specific information. For this example we'll use wix.com. This is the link we'll use: https://www.wix.com/lp-en/website-builder?utm_source=google&utm_medium=cpc&utm_campaign=18723764133^141603088966^search%20-%20us^&experiment_id=website^e^631152329166^&gad_source=1&gclid=CjwKCAjwnK60BhA9EiwAmpHZwzrkMLBTkedJKcQH1es7sEhfc-OsxveEBqDdfOUGcJvFmqMYQmpgnBoCzc8QAvD_BwE
+
+    •Open the console, and let's create our first regex expression. Enter the following line:
+    var regex = /\w+/gi
+
+    Notice the syntax of the regex expression. The \ denotes that we are not actually trying to match the letter w, but rather 'words'. The + denotes that we are looking for all words. After the / are the g (global) flag and the i (case insensitive) flag. This means we are looking for all instances on any line, and regardless of its capitalization. As of now this will return undefined because we have not told the browser what too search through. What this search means in plain english is "Give me every word that appears in the text I am searching through."
+
+    •Let's grab the url so we can search through it using regex. Use this command:
+    var url = window.location.href
+
+    and console.log the url to make sure it's being retrieved.
+
+    •Now that we have the url, let's run a regex expression agains the url.
+
+    •Give the console the command: 
+    window.location.href.match(/\w+/gi)
+
+    Here we are using the match method to run our regex against the url. We'll get back every word in the url.
+
+    •Now let's give the command: 
+    window.location.href.match(/\w+/gi)[0]
+
+    What this means is "give me the first index (or instance) of a word in the url." Recall that 0 index means 'first'.
+
+    •Let's try and grab digits instead of words. Try the command:
+    window.location.href.match(/\d+/gi)
+
+    Notice that this returns all of the digits within the url.
+
+    •Let's say we want to grab a value within the url. Recall that url parameters are comprised of key-value pairs. Let's say we want to grab 'cpc' from the part of the url 'utm_medium=cpc'. In this instance, utm_medium is a key, and cpc is the value. 
+
+    Try the command:
+    window.location.href.match(/utm_medium=(\w+)/i)
+
+    Notice that we get back an array with 2 indeces: 
+    Index 0: "utm_medium=cpc"
+    Index 1: "cpc"
+
+    To retrieve the value "cpc", simply at a [1] to the previous command. Notice that there are parentheses around the \w+. We have turned the search into a capture group. Stay tuned for more on grouping later in the lesson.
+
+2. Use a regex object
+    •Try the command: 
+    var pattern = new RegExp(/\w+/, "gi")
+    followed by:
+    pattern.test("hello")
+
+    This should return true. Notice the syntax change. We are using the RegExp object, and passing in our regex as the first parameter, and flags as the second parameter. In plain english this means "Tell me if the string 'hello' has words in it, wherever it appears in the string and whether or not its capitalized." The response is of course 'true'.
+
+    For the majority of instances in this lesson, we will use strategy 1: Use a string as a regex expression.
+
+
+Now we will take a look at some of the individual components within regex. 
+
+
 
 ## Table of Contents
 
@@ -32,12 +96,33 @@ The default settings are to find the first exact match of whatever is between th
 ## Regex Components
 
 
-
 ### Anchors
 
 Anchors don't match any characters. They tell the regex engine where matches can begin and end, to ensure that a regex matches a string at a specific place. Some places that can be specified are the beginning or end of a string or line, a word, or non-word boundary. The ^ and $ symbols are anchors. They match the beginning or end of a string.
 
 ### Quantifiers
+
+Quantifiers are special characters that quantify a given pattern. More specifically, they quantify the pattern immediately preceding them. 
+
++ 
+    The + quantifier takes its preceding pattern and quantifies it 1 or more times. This means the regex /q+/ will match 'q', 'qq', 'qqq', etc. 
+    The regex /ca+t/ will match 'cat', 'caat', 'caaat', etc. This is because the + only acts on what immediately precedes it. In this case, that is the letter a. If you wanted it to act on more than just the letter a, you could group characters together immediately before the + symbol.
+
+* 
+    The * quantifier looks for the preceding pattern 0 or more times. It matches strings even where the pattern before the * never appears. Now if you had the example of /ca*t/, you will still get the same matches as /ca+t/, but now you will also match 'ct'.
+
+? 
+    The ? quantifier looks for its preceding pattern 0 or 1 times. If you had the regex /ca?t/, it would only match 'ct', and 'cat'.
+
+Custom Ranges:
+
+{n}
+
+{m,n}
+
+{n,}
+
+
 
 ### OR Operator
 
