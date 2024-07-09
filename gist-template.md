@@ -65,6 +65,7 @@ Let's take a closer look at each of these methods.
     To retrieve the value "cpc", simply at a [1] to the previous command. Notice that there are parentheses around the \w+. We have turned the search into a capture group. Stay tuned for more on grouping later in the lesson.
 
 2. Use a regex object
+
     •Try the command: 
     var pattern = new RegExp(/\w+/, "gi")
     followed by:
@@ -98,7 +99,18 @@ Now we will take a look at some of the individual components within regex.
 
 ### Anchors
 
-Anchors don't match any characters. They tell the regex engine where matches can begin and end, to ensure that a regex matches a string at a specific place. Some places that can be specified are the beginning or end of a string or line, a word, or non-word boundary. The ^ and $ symbols are anchors. They match the beginning or end of a string.
+Anchors don't match any characters. They tell the regex engine where matches can begin and end, to ensure that a regex matches a string at a specific place. Some places that can be specified are the beginning or end of a string or line, a word, or non-word boundary. 
+
+The ^ and $ symbols are anchors. They match the beginning or end of a string.
+
+^ carrot:
+    Beginning of a string (or line)
+    This means that ^a matches an a at the beginning of a string.
+    
+$ dollar sign:
+    End of a string (or line)
+    This means that e$ matches a n e at the end of a string (or line).
+
 
 ### Quantifiers
 
@@ -116,12 +128,14 @@ Quantifiers are special characters that quantify a given pattern. More specifica
 
 Custom Ranges:
 
-{n}
+{count}
+    Matches its preceding pattern exactly the specified number of times.
 
-{m,n}
+{min,max}
+    Matches its preceding pattern from the value of min to the value of max number of times.
 
-{n,}
-
+{min,}
+    Matches its preceding pattern for the value of min or more times.
 
 
 ### OR Operator
@@ -175,7 +189,7 @@ $ Character class: Match the end of a group of text
     This is the opposite of the ^ class.
 
 
-\d characrer class: any digit
+\d character class: any digit
     This grabs any numbers
 
 
@@ -234,7 +248,90 @@ The parentheses are needed, because without them, your expression would be /t|Th
 
 ### Greedy and Lazy Match
 
+There are 'greedy' and 'lazy' matches in regex.
+
+1. Greedy matching:
+    A greedy match tries to match as much of the input string as possible. By default, regex quantifiers (*, +, ?, {n,m}) are greedy.
+
+    Consider the following string: 
+    const text = "The quick brown fox jumps over the lazy dog.";
+
+    If you use a greedy regex to match everything between the first and last quotation marks, it would look like this:
+        const regex = /".*"/;
+        const result = text.match(regex);
+        console.log(result); // ["The quick brown fox jumps over the lazy dog."]
+    
+    Here, .* is a greedy quantifier. It tries to match as many characters as possible, consuming the entire string between the first and last quotation marks.
+
+2. Lazy matching:
+    A lazy match tries to match as little of the input string as possible. You can make a quantifier lazy by appending a ? after it.
+
+    Example of Lazy Matching
+    Using the same string:
+    const text = 'He said, "The quick brown fox jumps over the lazy dog."';
+
+    If you want to match everything between each pair of quotation marks lazily, you would use:
+
+        const regex = /".*?"/;
+        const result = text.match(regex);
+        console.log(result); // ["The quick brown fox jumps over the lazy dog."]
+
+    Here, .*? is a lazy quantifier. It tries to match as few characters as possible, stopping at the first closing quotation mark.
+
 ### Boundaries
+
+In JavaScript, boundaries in regex are used to specify positions in the text where certain conditions must hold true. These boundaries don't match actual characters but rather positions in the text that meet certain criteria.
+
+Types of Boundaries:
+    Word Boundaries (\b and \B):
+
+        \b: 
+            Matches a position where a word character (usually a-z, A-Z, 0-9, or underscore) is not followed or preceded by another word character.
+
+        \B: 
+            Matches a position where \b does not match, i.e., a position between two word characters or two non-word characters.
+
+    Practical Examples:
+        Word Boundaries (\b)
+            Example 1: Matching Whole Words
+
+                String: "Hello, world! Hello again, world."
+
+                Regex: /\bHello\b/
+
+                Code:
+                    const text = "Hello, world! Hello again, world.";
+                    const regex = /\bHello\b/g;
+                    const result = text.match(regex);
+                    console.log(result); // ["Hello", "Hello"]
+            
+                We can see that the result matches "Hello" as a whole word in 2 instances.
+
+            Example 2: Finding Word Positions
+
+                String: "start middle end"
+
+                Regex: /\b\w+\b/g
+
+                Explanation:
+
+                \b: Match a word boundary
+                \w+: Match one or more word characters
+                \b: Match a word boundary
+                Code:
+                    const text = "start middle end";
+                    const regex = /\b\w+\b/g;
+                    const result = text.match(regex);
+                    console.log(result); // ["start", "middle", "end"]
+
+                We can see that the result matches all of the words in the string within the text variable.
+        Non-word Boundaries (\B)
+        
+        
+
+
+    
+
 
 ### Back-references
 
