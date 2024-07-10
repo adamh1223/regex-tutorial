@@ -142,6 +142,28 @@ Custom Ranges:
 
 The | (or) Operator is used if you are looking for a character OR another character, and you want either to match. In the expression /(t|T)he/g , you want either a lowercase t or an uppercase t to match. 
 
+    The basic syntax of the | operator is:
+    pattern1|pattern2
+
+Let's take a look at an example use case for the or operator:
+
+    let text = "The cat sat on the mat.";
+    let regex = /cat|dog/;
+    console.log(text.match(regex)); // ["cat"]
+
+    This regex matches either "cat" or "dog". In the given text, it matches "cat".
+
+The or operator also comes in handy when looking for any of a group of patterns. Here is an example demonstrating this:
+
+    let text = "I like apples and oranges.";
+    let regex = /I like (apples|bananas|oranges)/;
+    console.log(text.match(regex)); // ["I like apples", "apples"]
+
+    Here, the regex matches the phrase "I like " followed by either "apples", "bananas", or "oranges". In the text, it matches "I like apples".
+
+
+
+
 ### Character Classes
 
 Character classes are ways to search using special characters. The special characters have different search filters and can be used to specify your search. If you want to use a special character without it being a character class, and you are searching for, say, a period, then you can use the \ to escape the character. By using \. you are letting it know that you are actually searching for a period, not using the period as a character.
@@ -326,6 +348,11 @@ Types of Boundaries:
 
                 We can see that the result matches all of the words in the string within the text variable.
         Non-word Boundaries (\B)
+
+            A non-word boundary is the opposite of /b (word boundary). 
+            const text = "The quick brown fox jumps over the lazy dog.";
+            const regex = /\Bfox/B\;
+            console.log(text.match(regex));
         
         
 
@@ -334,6 +361,28 @@ Types of Boundaries:
 
 
 ### Back-references
+
+Back-references in regular expressions allow you to refer to previously captured groups within the same regex pattern. This is useful for finding repeated patterns or for reusing portions of the match. In JavaScript, back-references are denoted by a backslash followed by the number of the capturing group. Capturing groups are numbered by the order of their opening parentheses `(`
+
+Let's take a look at an example of a basic back-reference in regex:
+
+    let text = "He said, 'hello' and then 'hello' again.";
+    let regex = /'(hello)' and then '\1'/;
+    console.log(text.match(regex)); //RESULT: ["'hello' and then 'hello'", "hello"]
+
+    In this example, '(hello)' is the first capturing group, and \1 is the back-reference to this group. The regex matches the pattern where "hello" is repeated.
+
+Back-references are typically used to find repeated patterns. For example, to find a word that repeats in a sentence, you might use:
+
+    let text = "The cat chases the cat.";
+    let regex = /\b(\w+)\b.*\b\1\b/;
+    console.log(text.match(regex)); // ["The cat chases the cat", "cat"]
+
+    Here, (\w+) captures a word, and \1 matches the same word later in the string.
+
+
+
+
 
 ### Look-ahead and Look-behind
 
