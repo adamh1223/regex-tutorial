@@ -115,6 +115,7 @@ Now we will take a look at some of the individual components within regex.
 - [Boundaries](#boundaries)
 - [Back-references](#back-references)
 - [Look-ahead and Look-behind](#look-ahead-and-look-behind)
+- [Hex example](#hex-example)
 - [Author](#author)
 
 ## Regex Components
