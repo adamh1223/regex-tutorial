@@ -92,6 +92,7 @@ Now we will take a look at some of the individual components within regex.
 - [Greedy and Lazy Match](#greedy-and-lazy-match)
 - [Boundaries](#boundaries)
 - [Back-references](#back-references)
+- [Hex-example](#hex-example)
 - [Look-ahead and Look-behind](#look-ahead-and-look-behind)
 
 ## Regex Components
@@ -404,6 +405,85 @@ Positive Look-ahead: (?=)
 
 Negative Look-ahead: (?!)
     This looks for anything except what's in front of what you specify, the opposite of the positive look-ahead. The opposite for the example given for the positive look-ahead would be /.(?!at)/g, and this would give you everything except characters that come before at.
+
+
+### Hex Example
+
+Now let's combine some of these concepts to break down a practical example of a regex expression.
+
+The following regex is designed to match a valid hexadecimal color value, either in the 6-digit format (e.g., #a3c113) or the 3-digit shorthand format (e.g., #a3c).
+
+This is a very common use case for regex, so let's take a look.
+
+Regex: /^#?([a-f0-9]{6}|[a-f0-9]{3})$/
+
+Now at first this may seem intimidating, but let's break this down using concepts we've covered so far. 
+
+
+Overview of the Expression:
+
+    ^ asserts the start of the string.
+    #? matches an optional hash symbol.
+    ([a-f0-9]{6}|[a-f0-9]{3}) is a capturing group that matches either 6 or 3 hexadecimal digits.
+    $ asserts the end of the string.
+
+Breakdown of the Regex Pattern:
+    Start of String (^):
+
+        ^: Asserts the position at the start of the string.
+    Optional Hash Symbol (#?):
+
+        #?: Matches an optional hash symbol (#). The question mark (?) means that the preceding character (in this case, #) is optional and can appear 0 or 1 time.
+    Capturing Group ([a-f0-9]{6}|[a-f0-9]{3}):
+
+        ([a-f0-9]{6}|[a-f0-9]{3}): This is a capturing group that matches either a 6-digit or 3-digit hexadecimal number.
+
+        Hex Digits:
+
+        [a-f0-9]: Matches any single character that is a hexadecimal digit, which can be any lowercase letter from a to f or any digit from 0 to 9.
+        Six Hex Digits ({6}):
+
+        [a-f0-9]{6}: Matches exactly six hexadecimal digits.
+        Three Hex Digits ({3}):
+
+        [a-f0-9]{3}: Matches exactly three hexadecimal digits.
+        Alternation (|):
+
+        |: The alternation operator allows for matching either the pattern on its left side or its right side. So, [a-f0-9]{6}|[a-f0-9]{3} matches either six hex digits or three hex digits.
+    End of String ($):
+
+        $: Asserts the position at the end of the string.
+
+Testing the expression with strings:
+    Here are a few test cases we can try with this regex:
+
+    Matching with a 6-digit hexadecimal color:
+
+        let regex = /^#?([a-f0-9]{6}|[a-f0-9]{3})$/;
+        console.log(regex.test("#a3c113")); // true
+        console.log(regex.test("a3c113"));  // true
+
+        #a3c113 and a3c113 both match because they contain exactly six hexadecimal digits, with the hash symbol being optional.
+
+    Matching a 3-digit hexadecimal color:
+
+        let regex = /^#?([a-f0-9]{6}|[a-f0-9]{3})$/;
+        console.log(regex.test("#a3c")); // true
+        console.log(regex.test("a3c"));  // true
+
+        #a3c and a3c both match because they contain exactly three hexadecimal digits, with the hash symbol being optional.
+
+    Non-Matching Examples:
+
+        let regex = /^#?([a-f0-9]{6}|[a-f0-9]{3})$/;
+        console.log(regex.test("#a3c11")); // false (only 5 digits)
+        console.log(regex.test("a3c1134")); // false (7 digits)
+        console.log(regex.test("#g3c113")); // false (contains 'g', which is not a hex digit)
+
+        #a3c11 does not match because it has only 5 digits.
+        a3c1134 does not match because it has 7 digits.
+        #g3c113 does not match because it contains 'g', which is not a valid hexadecimal digit.
+
 
 
 ## Author
